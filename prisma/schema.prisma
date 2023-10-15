@@ -49,4 +49,63 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  resumes  Resume[]  @relation("userResumes")
+}
+
+model Resume {
+  id             String           @id @default(cuid())
+  objective      String?
+  userId         String
+  user           User             @relation("userResumes", fields: [userId], references: [id])
+  education      Education[]
+  workExperience WorkExperience[]
+  skills         Skill[]
+  certifications Certification[]
+  projects       Project[]
+}
+
+model Education {
+  id         Int      @id @default(autoincrement())
+  school     String
+  degree     String
+  graduation DateTime
+  resumeId   String
+  resume     Resume   @relation(fields: [resumeId], references: [id])
+}
+
+model WorkExperience {
+  id               Int       @id @default(autoincrement())
+  company          String
+  position         String
+  startDate        DateTime
+  endDate          DateTime?
+  responsibilities String[]
+  resumeId         String
+  resume           Resume    @relation(fields: [resumeId], references: [id])
+}
+
+model Skill {
+  id       Int    @id @default(autoincrement())
+  name     String
+  resumeId String
+  resume   Resume @relation(fields: [resumeId], references: [id])
+}
+
+model Certification {
+  id               Int      @id @default(autoincrement())
+  name             String
+  issuingAuthority String
+  date             DateTime
+  resumeId         String
+  resume           Resume   @relation(fields: [resumeId], references: [id])
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  startDate   DateTime
+  endDate     DateTime?
+  resumeId    String
+  resume      Resume    @relation(fields: [resumeId], references: [id])
 }
