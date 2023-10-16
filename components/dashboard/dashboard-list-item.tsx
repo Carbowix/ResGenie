@@ -17,7 +17,7 @@ export default function DashboardListItem({
   return (
     <div className="flex flex-col gap-y-1">
       <Link href={resumeId}>
-        <div className="w-64 h-96 rounded-sm border border-slate-300 hover:border-[#488DB7] relative group transition-all duration-300 ease-in-out">
+        <div className="w-64 h-96 rounded-sm border border-slate-300 hover:border-[#488DB7] relative group transition-all duration-300 ease-in-out cursor-pointer">
           {isResume && (
             <Image
               src="/res_placeholder.png"

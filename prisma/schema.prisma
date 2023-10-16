@@ -54,7 +54,8 @@ model User {
 
 model Resume {
   id             String           @id @default(cuid())
-  objective      String?
+  title          String
+  objective      String?          @default("")
   userId         String
   user           User             @relation("userResumes", fields: [userId], references: [id])
   education      Education[]
@@ -62,6 +63,9 @@ model Resume {
   skills         Skill[]
   certifications Certification[]
   projects       Project[]
+  isPublic       Boolean
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 model Education {

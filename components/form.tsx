@@ -1,5 +1,5 @@
 'use client';
-import { type FormEvent, useState, useEffect } from 'react';
+import { type FormEvent, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import LoadingDots from '@/components/loading-dots';
 import toast from 'react-hot-toast';
