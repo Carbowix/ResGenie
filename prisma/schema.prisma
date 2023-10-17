@@ -55,6 +55,11 @@ model User {
 model Resume {
   id             String           @id @default(cuid())
   title          String
+  birthday       String?
+  email          String?
+  phoneNumber    String?
+  location       String?
+  links          String[]
   objective      String?          @default("")
   userId         String
   user           User             @relation("userResumes", fields: [userId], references: [id])

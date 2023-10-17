@@ -1,4 +1,5 @@
-import { formatMessageDate } from '@/lib/userUtil';
+'use client';
+import { formatMessageDate } from '@/lib/util';
 import DashboardListItem from './dashboard-list-item';
 interface DashboardListProps {
   initResumes: {
