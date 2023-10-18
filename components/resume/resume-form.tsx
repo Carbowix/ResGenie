@@ -2,13 +2,14 @@
 import type {
   Certification,
   Education,
+  ProfileLink,
   Project,
   Resume,
   Skill,
   WorkExperience,
 } from '@prisma/client';
 import ResumeChangeTitle from './resume-change-title';
-import { useState } from 'react';
+import { FormEvent, FormEventHandler, useState } from 'react';
 import ResumeSectionList from './resume-section-list';
 interface ResumeFormProps {
   resumeData: Resume & {
@@ -17,6 +18,7 @@ interface ResumeFormProps {
     skills: Skill[];
     certifications: Certification[];
     projects: Project[];
+    profileLinks: ProfileLink[];
   };
 }
 export default function ResumeForm({ resumeData }: ResumeFormProps) {
@@ -35,13 +37,19 @@ export default function ResumeForm({ resumeData }: ResumeFormProps) {
     setFormData({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="w-full h-full p-2 flex flex-col space-y-2">
       <ResumeChangeTitle resumeId={resumeData.id} title={resumeData.title} />
       <hr className="style-six" />
-      <form className="w-full space-y-2 overflow-y-scroll">
-        <h2 className="text-2xl font-bold p-2">Personal Information</h2>
-        <div className="w-full flex flex-wrap">
+      <div className="w-full space-y-2 overflow-y-scroll">
+        <h2 id="personal_section" className="text-2xl font-bold p-2">
+          Personal Information
+        </h2>
+        <form onSubmit={handleSubmit} className="w-full flex flex-wrap">
           <div className="w-full md:w-1/2 p-2">
             <label className="block uppercase tracking-wide text-gray-200 text-xs font-bold mb-2">
               Full Name
@@ -120,53 +128,30 @@ export default function ResumeForm({ resumeData }: ResumeFormProps) {
               onChange={handleChange}
             />
           </div>
-        </div>
+        </form>
         <hr className="style-six" />
-        <h2 id="education_section" className="text-2xl font-bold p-2">
+        <h2 id="profile_links_section" className="text-2xl font-bold p-2">
           Profile Links
         </h2>
-        <ResumeSectionList sectionName="links" sectionData={resumeData.links} />
+        <ResumeSectionList
+          key={'profileLinks'}
+          sectionName="links"
+          sectionData={resumeData.profileLinks}
+        />
         <hr className="style-six" />
         <h2 id="education_section" className="text-2xl font-bold p-2">
           Education
         </h2>
         <ResumeSectionList
+          key={'education'}
           sectionName="education"
           sectionData={resumeData.education}
         />
-        {/*
-<div className="w-full flex flex-col border-slate-500 border rounded">
-          <div className="w-full flex justify-between p-2 border-b border-slate-500">
-            <p className="text-md w-[50%] font-semibold whitespace-normal">
-              Some name
-            </p>
-            <div className="flex gap-x-1">
-              <button className="w-8 h-8 rounded p-1 hover:bg-[#F7F7FF] hover:text-[#279AF1] transition-all duration-300 ease-in-out">
-                <Pencil />
-              </button>
-              <button className="w-8 h-8 rounded p-1 hover:bg-[#F7F7FF] hover:text-red-500 transition-all duration-300 ease-in-out">
-                <X />
-              </button>
-            </div>
-          </div>
-          <div className="w-full flex justify-between p-2 border-b border-slate-500">
-            <p className="text-md font-semibold">Some name</p>
-            <div className="flex gap-x-1">
-              <button className="w-8 h-8 rounded p-1 hover:bg-[#F7F7FF] hover:text-[#279AF1] transition-all duration-300 ease-in-out">
-                <Pencil />
-              </button>
-              <button className="w-8 h-8 rounded p-1 hover:bg-[#F7F7FF] hover:text-red-500 transition-all duration-300 ease-in-out">
-                <X />
-              </button>
-            </div>
-          </div>
-        </div>
-          */}
-
         <h2 id="work_section" className="text-2xl font-bold p-2">
           Work Experience
         </h2>
         <ResumeSectionList
+          key={'work'}
           sectionName="work"
           sectionData={resumeData.workExperience}
         />
@@ -176,6 +161,7 @@ export default function ResumeForm({ resumeData }: ResumeFormProps) {
           Projects
         </h2>
         <ResumeSectionList
+          key={'projects'}
           sectionName="projects"
           sectionData={resumeData.projects}
         />
@@ -185,6 +171,7 @@ export default function ResumeForm({ resumeData }: ResumeFormProps) {
           Certifications
         </h2>
         <ResumeSectionList
+          key={'certificates'}
           sectionName="certificates"
           sectionData={resumeData.certifications}
         />
@@ -194,10 +181,11 @@ export default function ResumeForm({ resumeData }: ResumeFormProps) {
           Skills
         </h2>
         <ResumeSectionList
+          key={'skills'}
           sectionName="skills"
           sectionData={resumeData.skills}
         />
-      </form>
+      </div>
     </div>
   );
 }

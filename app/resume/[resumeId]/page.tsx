@@ -20,6 +20,7 @@ export default async function ResumePage({
       projects: true,
       workExperience: true,
       certifications: true,
+      profileLinks: true,
     },
   });
 

@@ -5,10 +5,11 @@ import {
   Contact,
   FileBadge,
   GraduationCap,
+  Link,
   Presentation,
   UserCog,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 function SideBarIcon({
   tooltip,
@@ -36,6 +37,7 @@ function SideBarIcon({
 
 export default function ResumeSiderbar() {
   const router = useRouter();
+  const currentPath = usePathname();
   return (
     <div className="w-16 h-full bg-[#60656f] border-l border-gray-500 flex flex-col space-y-2 items-center p-1">
       <SideBarIcon
@@ -49,31 +51,47 @@ export default function ResumeSiderbar() {
         key={'personal_button'}
         tooltip="Personal Information"
         iconName={<Contact />}
+        onClickHandler={() => router.push(currentPath + '#personal_section')}
+      />
+      <SideBarIcon
+        key={'profile_button'}
+        tooltip="Profile Links"
+        iconName={<Link />}
+        onClickHandler={() =>
+          router.push(currentPath + '#profile_links_section')
+        }
       />
       <SideBarIcon
         key={'education_button'}
         tooltip="Education"
         iconName={<GraduationCap />}
+        onClickHandler={() => router.push(currentPath + '#education_section')}
       />
       <SideBarIcon
         key={'work_button'}
         tooltip="Work Experience"
         iconName={<Briefcase />}
+        onClickHandler={() => router.push(currentPath + '#work_section')}
       />
       <SideBarIcon
         key={'projects_button'}
         tooltip="Projects"
         iconName={<Presentation />}
+        onClickHandler={() => router.push(currentPath + '#projects_section')}
       />
       <SideBarIcon
         key={'certifications_button'}
         tooltip="Certifications"
         iconName={<FileBadge />}
+        onClickHandler={() =>
+          router.push(currentPath + '#certifications_section')
+        }
       />
       <SideBarIcon
         key={'skills_button'}
         tooltip="Skills"
         iconName={<UserCog />}
+        onClickHandler={() => router.push(currentPath + '#skills_section')}
       />
     </div>
   );

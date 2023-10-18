@@ -59,7 +59,6 @@ model Resume {
   email          String?
   phoneNumber    String?
   location       String?
-  links          String[]
   objective      String?          @default("")
   userId         String
   user           User             @relation("userResumes", fields: [userId], references: [id])
@@ -71,50 +70,59 @@ model Resume {
   isPublic       Boolean
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  profileLinks   ProfileLink[]
+}
+
+model ProfileLink {
+  id       Int    @id @default(autoincrement())
+  link     String
+  resumeId String
+  resume   Resume @relation(fields: [resumeId], references: [id])
 }
 
 model Education {
-  id         Int      @id @default(autoincrement())
+  id         Int    @id @default(autoincrement())
   school     String
   degree     String
-  graduation DateTime
+  graduation String
   resumeId   String
-  resume     Resume   @relation(fields: [resumeId], references: [id])
+  resume     Resume @relation(fields: [resumeId], references: [id])
 }
 
 model WorkExperience {
-  id               Int       @id @default(autoincrement())
+  id               Int    @id @default(autoincrement())
   company          String
   position         String
-  startDate        DateTime
-  endDate          DateTime?
-  responsibilities String[]
+  startDate        String
+  endDate          String
+  responsibilities String
   resumeId         String
-  resume           Resume    @relation(fields: [resumeId], references: [id])
+  resume           Resume @relation(fields: [resumeId], references: [id])
 }
 
 model Skill {
   id       Int    @id @default(autoincrement())
-  name     String
+  header   String
+  skills   String
   resumeId String
   resume   Resume @relation(fields: [resumeId], references: [id])
 }
 
 model Certification {
-  id               Int      @id @default(autoincrement())
+  id               Int    @id @default(autoincrement())
   name             String
   issuingAuthority String
-  date             DateTime
+  date             String
   resumeId         String
-  resume           Resume   @relation(fields: [resumeId], references: [id])
+  resume           Resume @relation(fields: [resumeId], references: [id])
 }
 
 model Project {
-  id          Int       @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
   description String
-  startDate   DateTime
-  endDate     DateTime?
+  startDate   String
+  endDate     String
   resumeId    String
-  resume      Resume    @relation(fields: [resumeId], references: [id])
+  resume      Resume @relation(fields: [resumeId], references: [id])
 }
