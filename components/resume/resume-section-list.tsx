@@ -10,9 +10,11 @@ import type {
 } from '@prisma/client';
 
 import { Pencil, Plus, Save, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-type sectionType =
+export type sectionType =
   | 'education'
   | 'work'
   | 'projects'
@@ -28,6 +30,7 @@ type sectionData =
   | ProfileLink;
 
 interface ResumeSectionListProps {
+  resumeId: string;
   sectionName: sectionType;
   sectionData: sectionData[];
 }
@@ -95,18 +98,12 @@ const inputTypes: {
   },
 };
 
-interface ResumeSectionFormProps {
-  sectionName: sectionType;
-  sectionData: sectionData;
-  isEdit: boolean;
-  show: boolean;
-  setShowhandler: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 export default function ResumeSectionList({
+  resumeId,
   sectionName,
   sectionData,
 }: ResumeSectionListProps) {
+  const router = useRouter();
   const [showForm, setShowForm] = useState(false);
   const [currentSectionData, setCurrentSectionData] = useState<sectionData>();
   const [formSectionData, setFormSectionData] = useState<sectionData>();
@@ -271,10 +268,33 @@ export default function ResumeSectionList({
       }
     };
 
-    const handleFormSubmit = (e: FormEvent, sectionName: sectionType) => {
+    const handleFormSubmit = async (e: FormEvent, sectionName: sectionType) => {
       e.preventDefault();
       if (!isSaving) {
         setIsSaving(true);
+        const response = await fetch('/api/resume/editDetail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            sectionName: sectionName,
+            resumeId: resumeId,
+            isEdit: isEdit,
+            data: isEdit ? { ...currentSectionData } : { ...formSectionData },
+          }),
+        });
+
+        if (response.status === 200) {
+          toast.success('Successfuly Saved!');
+          setIsSaving(false);
+          setIsEdit(false);
+          setShowForm(false);
+          router.refresh();
+        } else {
+          toast.error('Something went wrong! Try again later');
+          setIsSaving(false);
+        }
       }
     };
     return (
@@ -320,7 +340,11 @@ export default function ResumeSectionList({
         <button
           type="submit"
           disabled={isSaving}
-          className="flex gap-x-1 items-center justify-center p-2 text-md bg-[#279AF1] text-white hover:text-black hover:bg-[#f7f7ff] transition-all duration-300 ease-in-out "
+          className={`${
+            isSaving
+              ? 'bg-gray-500 text-gray-400'
+              : 'bg-[#279AF1] text-white hover:text-black hover:bg-[#f7f7ff]'
+          } flex gap-x-1 items-center justify-center p-2 text-md transition-all duration-300 ease-in-out `}
         >
           <Save />
           Save

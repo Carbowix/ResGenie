@@ -55,6 +55,7 @@ model User {
 model Resume {
   id             String           @id @default(cuid())
   title          String
+  fullName       String?
   birthday       String?
   email          String?
   phoneNumber    String?
