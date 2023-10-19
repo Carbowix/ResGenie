@@ -394,7 +394,10 @@ export default function ResumeSectionList({
         <div className="w-full flex flex-col border-slate-500 border rounded">
           {sectionData.map((data) => {
             return (
-              <div className="w-full flex justify-between p-2 border-b border-slate-500">
+              <div
+                key={data.id}
+                className="w-full flex justify-between p-2 border-b border-slate-500"
+              >
                 <p className="text-md w-[50%] font-semibold whitespace-normal">
                   {getTitleFromType(sectionName, data)}
                 </p>

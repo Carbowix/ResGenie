@@ -229,7 +229,11 @@ export default function ResumeViewer({
                       </Text>
                       {resumeData.profileLinks.map((profileLink) => {
                         return (
-                          <Link src={profileLink.link} style={styles.link}>
+                          <Link
+                            key={profileLink.id + '_profile_link'}
+                            src={profileLink.link}
+                            style={styles.link}
+                          >
                             {profileLink.link}
                           </Link>
                         );
@@ -253,7 +257,10 @@ export default function ResumeViewer({
                     <View style={styles.divider} />
                     {resumeData.education.map((eduItem) => {
                       return (
-                        <View style={styles.educationItem}>
+                        <View
+                          key={eduItem.id + eduItem.degree}
+                          style={styles.educationItem}
+                        >
                           <View style={styles.educationTitleContainer}>
                             <Text style={styles.educationTitle}>
                               {eduItem.degree}
@@ -280,7 +287,10 @@ export default function ResumeViewer({
                     <View style={styles.divider} />
                     {resumeData.workExperience.map((work) => {
                       return (
-                        <View style={styles.experienceItem}>
+                        <View
+                          key={work.id + work.position}
+                          style={styles.experienceItem}
+                        >
                           <Text style={styles.jobTitle}>{work.position}</Text>
                           <View style={styles.companyInfo}>
                             <Text style={styles.companyName}>
@@ -306,7 +316,10 @@ export default function ResumeViewer({
                     <View style={styles.divider} />
                     {resumeData.projects.map((project) => {
                       return (
-                        <View style={styles.projectItem}>
+                        <View
+                          key={project.id + project.name}
+                          style={styles.projectItem}
+                        >
                           <View style={styles.projectHeader}>
                             <Text style={styles.projectTitle}>
                               {project.name}
@@ -331,7 +344,10 @@ export default function ResumeViewer({
                     <View style={styles.divider} />
                     {resumeData.certifications.map((certif) => {
                       return (
-                        <View style={styles.certificationItem}>
+                        <View
+                          key={certif.id + certif.name}
+                          style={styles.certificationItem}
+                        >
                           <Text style={styles.certificationTitle}>
                             {certif.name}
                           </Text>
@@ -353,7 +369,7 @@ export default function ResumeViewer({
                     <View style={styles.divider} />
                     {resumeData.skills.map((skill) => {
                       return (
-                        <View>
+                        <View key={skill.id + skill.header}>
                           <Text style={styles.skillCategory}>
                             {skill.header}:
                           </Text>
