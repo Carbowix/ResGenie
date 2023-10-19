@@ -16,7 +16,7 @@ export default function DashboardList({ initResumes }: DashboardListProps) {
         return (
           <DashboardListItem
             key={resume.id}
-            resumeId={'/resume/' + resume.id}
+            resumeId={resume.id}
             title={resume.title}
             lastUpdated={formatMessageDate(resume.updatedAt)}
             isResume

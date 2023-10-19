@@ -11,7 +11,6 @@ export default async function ResumePage({
 }) {
   const userSession = await getAuthSession();
   if (!userSession) return notFound();
-  console.log(params.resumeId);
   const resumeData = await prisma.resume.findUnique({
     where: { id: params.resumeId },
     include: {

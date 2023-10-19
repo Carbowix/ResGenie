@@ -297,6 +297,7 @@ export default function ResumeSectionList({
         }
       }
     };
+
     return (
       <form
         onSubmit={(e) => handleFormSubmit(e, sectionName)}
@@ -353,6 +354,34 @@ export default function ResumeSectionList({
     );
   };
 
+  const handleDeleteItem = async (
+    sectionName: sectionType,
+    sectionItemId: number
+  ) => {
+    if (!isSaving) {
+      setIsSaving(true);
+      const response = await fetch('/api/resume/deleteDetail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sectionName: sectionName,
+          sectionItemId: sectionItemId,
+        }),
+      });
+
+      if (response.status === 200) {
+        toast.success('Successfuly deleted ' + sectionName + ' record');
+        setIsSaving(false);
+        router.refresh();
+      } else {
+        setIsSaving(false);
+        toast.error('Error occured while deleting ' + sectionName + ' record');
+      }
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col gap-y-2 items-end px-2">
@@ -365,7 +394,7 @@ export default function ResumeSectionList({
                 </p>
                 <div className="flex gap-x-1">
                   <button
-                    disabled={showForm}
+                    disabled={showForm || isSaving}
                     onClick={() => {
                       setCurrentSectionData(data);
                       setIsEdit(true);
@@ -376,7 +405,8 @@ export default function ResumeSectionList({
                     <Pencil />
                   </button>
                   <button
-                    disabled={showForm}
+                    disabled={showForm || isSaving}
+                    onClick={() => handleDeleteItem(sectionName, data.id)}
                     className="w-8 h-8 rounded p-1 hover:bg-[#F7F7FF] hover:text-red-500 transition-all duration-300 ease-in-out"
                   >
                     <X />
@@ -390,7 +420,7 @@ export default function ResumeSectionList({
           )}
         </div>
         <button
-          disabled={showForm}
+          disabled={showForm || isSaving}
           onClick={() => {
             setIsEdit(false);
             setShowForm(true);

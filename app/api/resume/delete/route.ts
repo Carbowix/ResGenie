@@ -1,6 +1,6 @@
-import prisma from '@/lib/prisma';
 import { z } from 'zod';
 import { getAuthSession } from '../../auth/[...nextauth]/route';
+import prisma from '@/lib/prisma';
 
 export async function POST(req: Request) {
   try {
@@ -8,20 +8,7 @@ export async function POST(req: Request) {
     if (!userSession)
       return Response.json({ message: 'Unauthorized access' }, { status: 401 });
     const body = await req.json();
-    const { resumeId, data } = z
-      .object({
-        resumeId: z.string(),
-        data: z.object({
-          fullName: z.string(),
-          email: z.string(),
-          phoneNumber: z.string(),
-          objective: z.string(),
-          location: z.string(),
-          birthday: z.string(),
-          isPublic: z.boolean(),
-        }),
-      })
-      .parse(body);
+    const { resumeId } = z.object({ resumeId: z.string() }).parse(body);
 
     const resume = await prisma.resume.findFirst({
       where: {
@@ -30,9 +17,15 @@ export async function POST(req: Request) {
     });
 
     if (!resume)
-      return Response.json({ message: 'Invalid resume' }, { status: 404 });
-    await prisma.resume.update({ where: { id: resumeId }, data: { ...data } });
-    return Response.json({ message: 'Saved Successfuly' }, { status: 200 });
+      return Response.json({ message: 'ResumeId invalid' }, { status: 404 });
+
+    await prisma.resume.delete({
+      where: {
+        id: resumeId,
+      },
+    });
+
+    return Response.json({ message: 'Resume deleted' }, { status: 200 });
   } catch (e) {
     console.log(e);
     if (e instanceof z.ZodError) {
