@@ -11,7 +11,7 @@ export default async function ResumePage({
   params: { resumeId: string };
 }) {
   const userSession = await getAuthSession();
-  if (!userSession) return notFound();
+  //if (!userSession) return notFound();
   const resumeData = await prisma.resume.findUnique({
     where: { id: params.resumeId },
     include: {
@@ -26,11 +26,11 @@ export default async function ResumePage({
   });
 
   if (!resumeData) return notFound();
-  if (!resumeData.isPublic && resumeData.userId !== userSession.user.id)
+  if (!resumeData.isPublic && resumeData.userId !== userSession?.user.id)
     return notFound();
   return (
     <div className="w-screen h-screen bg-[#131112] text-white flex flex-col overflow-y-scroll md:flex-row">
-      {resumeData.userId == userSession.user.id && (
+      {resumeData.userId == userSession?.user.id && (
         <div className="w-full h-full md:w-[50%] flex">
           <ResumeSiderbar />
           <ResumeForm resumeData={resumeData} />
