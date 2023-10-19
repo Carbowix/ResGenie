@@ -37,6 +37,7 @@ export async function POST(req: Request) {
               data: {
                 school: educationData.school,
                 degree: educationData.degree,
+                startDate: educationData.startDate,
                 graduation: educationData.graduation,
               },
             });
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
               data: {
                 school: educationData.school,
                 degree: educationData.degree,
+                startDate: educationData.startDate,
                 graduation: educationData.graduation,
                 resume: {
                   connect: {

@@ -85,6 +85,7 @@ model Education {
   id         Int    @id @default(autoincrement())
   school     String
   degree     String
+  startDate  String
   graduation String
   resumeId   String
   resume     Resume @relation(fields: [resumeId], references: [id])

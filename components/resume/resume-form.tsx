@@ -6,12 +6,15 @@ import type {
   Project,
   Resume,
   Skill,
+  User,
   WorkExperience,
 } from '@prisma/client';
 import ResumeChangeTitle from './resume-change-title';
-import { FormEvent, FormEventHandler, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import ResumeSectionList from './resume-section-list';
 import toast from 'react-hot-toast';
+import { Save } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 interface ResumeFormProps {
   resumeData: Resume & {
     education: Education[];
@@ -20,10 +23,12 @@ interface ResumeFormProps {
     certifications: Certification[];
     projects: Project[];
     profileLinks: ProfileLink[];
+    user: User;
   };
-  guestMode: boolean;
 }
-export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
+export default function ResumeForm({ resumeData }: ResumeFormProps) {
+  const router = useRouter();
+  const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
     fullName: resumeData.fullName || '',
     email: resumeData.email || '',
@@ -40,13 +45,10 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
     setFormData({ ...formData, [e.currentTarget.name]: e.currentTarget.value });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-  };
-
-  useEffect(() => {
-    const saveInterval = setInterval(async () => {
-      // Here, you can save 'dataToSave' to your backend or storage
+    if (!isSaving) {
+      setIsSaving(true);
       const response = await fetch('/api/resume/editPersonal', {
         method: 'POST',
         headers: {
@@ -59,16 +61,15 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
       });
 
       if (response.status === 200) {
-        toast.success('Autosave successful');
+        toast.success('Saved successfuly');
+        setIsSaving(false);
+        router.refresh();
       } else {
         toast.error('Error occured while autosaving');
+        setIsSaving(false);
       }
-    }, 120000); // Save data every 2 mins
-
-    return () => {
-      clearInterval(saveInterval);
-    };
-  }, [formData]);
+    }
+  };
 
   return (
     <div className="w-full h-full p-2 flex flex-col space-y-2">
@@ -104,6 +105,7 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
               Full Name
             </label>
             <input
+              disabled={isSaving}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               type="text"
               name="fullName"
@@ -117,6 +119,7 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
               Email
             </label>
             <input
+              disabled={isSaving}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               type="email"
               name="email"
@@ -130,6 +133,7 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
               Phone Number
             </label>
             <input
+              disabled={isSaving}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               type="text"
               name="phoneNumber"
@@ -143,6 +147,7 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
               Objective
             </label>
             <textarea
+              disabled={isSaving}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               name="objective"
               value={formData.objective}
@@ -157,6 +162,7 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
               Location
             </label>
             <input
+              disabled={isSaving}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               type="text"
               name="location"
@@ -170,12 +176,27 @@ export default function ResumeForm({ resumeData, guestMode }: ResumeFormProps) {
               Birthday
             </label>
             <input
+              disabled={isSaving}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               type="date"
               name="birthday"
               value={formData.birthday}
               onChange={handleChange}
             />
+          </div>
+          <div className="w-full px-2">
+            <button
+              type="submit"
+              disabled={isSaving}
+              className={`${
+                isSaving
+                  ? 'bg-gray-500'
+                  : 'bg-[#279AF1] text-white hover:text-black hover:bg-[#f7f7ff]'
+              } w-full justify-self-end flex gap-x-1 items-center justify-center p-2 text-md transition-all duration-300 ease-in-out`}
+            >
+              <Save />
+              Save
+            </button>
           </div>
         </form>
         <hr className="style-six" />

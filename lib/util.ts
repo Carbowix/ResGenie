@@ -34,6 +34,42 @@ function formatMessageDate(messageDate: Date): string {
   });
 }
 
+function formatDate(inputDate: string) {
+  const dateParts = inputDate.split('-');
+  if (dateParts.length !== 3) {
+    return '';
+  }
+
+  const year = dateParts[0];
+  const month = dateParts[1];
+  const day = dateParts[2];
+
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  if (parseInt(month, 10) < 1 || parseInt(month, 10) > 12) {
+    return '';
+  }
+
+  const formattedDate = `${months[parseInt(month, 10) - 1]} ${parseInt(
+    day,
+    10
+  )}, ${year}`;
+  return formattedDate;
+}
+
 function extractCompanyAndUsername(link: string): string {
   const githubRegex = /github\.com\/([a-zA-Z0-9-]+)/;
   const linkedinRegex = /linkedin\.com\/in\/([a-zA-Z0-9-]+)/;
@@ -53,4 +89,4 @@ function extractCompanyAndUsername(link: string): string {
   }
 }
 
-export { formatMessageDate, extractCompanyAndUsername };
+export { formatMessageDate, extractCompanyAndUsername, formatDate };

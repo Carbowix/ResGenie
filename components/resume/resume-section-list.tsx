@@ -65,6 +65,7 @@ const inputTypes: {
     // Define input types for education section
     school: 'text',
     degree: 'text',
+    startDate: 'date',
     graduation: 'date',
   },
   links: {
@@ -326,15 +327,20 @@ export default function ResumeSectionList({
             );
           } else {
             return (
-              <textarea
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                name={inputItem}
-                value={handleValue(sectionName, inputItem)}
-                rows={3}
-                placeholder={inputItem}
-                onChange={(e) => handleInputChange(e, inputItem)}
-                required
-              />
+              <div key={inputItem + sectionName}>
+                <label className="block uppercase tracking-wide text-gray-200 text-xs font-bold mb-2">
+                  {inputItem}
+                </label>
+                <textarea
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  name={inputItem}
+                  value={handleValue(sectionName, inputItem)}
+                  rows={3}
+                  placeholder={inputItem}
+                  onChange={(e) => handleInputChange(e, inputItem)}
+                  required
+                />
+              </div>
             );
           }
         })}
