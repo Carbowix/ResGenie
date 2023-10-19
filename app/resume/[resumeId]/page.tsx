@@ -29,7 +29,7 @@ export default async function ResumePage({
   if (!resumeData.isPublic && resumeData.userId !== userSession.user.id)
     return notFound();
   return (
-    <div className="w-screen h-screen bg-[#131112] text-white flex flex-col md:flex-row">
+    <div className="w-screen h-screen bg-[#131112] text-white flex flex-col overflow-y-scroll md:flex-row">
       {resumeData.userId == userSession.user.id && (
         <div className="w-full h-full md:w-[50%] flex">
           <ResumeSiderbar />

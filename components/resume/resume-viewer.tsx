@@ -84,7 +84,7 @@ export default function ResumeViewer({
       fontSize: 24,
     },
     subtitle: {
-      fontSize: 10,
+      fontSize: 14,
     },
     link: {
       fontSize: 10,
