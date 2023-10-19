@@ -7,6 +7,7 @@ import prisma from '@/lib/prisma';
 export default async function DashboardPage() {
   const userSession = await getAuthSession();
   if (!userSession) return notFound();
+  console.log(userSession);
   const allResumes = await prisma.user.findUnique({
     where: {
       id: userSession.user.id,
