@@ -1,11 +1,7 @@
 <div align="center">
   <img src='./public/logo.png' width="100px" height="100px" />
   <h1>ResGenie</h1>
-</div>
-
-<h3 align="center">A simple online a resume builder web app built with Next.js and Supabase</h3>
-
-<div align="center">
+  <h3>A simple online a resume builder web app built with Next.js and Supabase</h3>
   <p>
     <a href="https://github.com/Carbowix/ResGenie/blob/main/LICENSE">
       <img src="https://img.shields.io/github/license/carbowix/ResGenie?style=for-the-badge" alt="license mit"/>
@@ -18,15 +14,15 @@
       <img src="https://img.shields.io/discord/633795546724827157?color=5865F2&logo=discord&logoColor=white" alt="Discord server" />
     </a>
   </p>
-  <br>
+  <p style="margin: 20px;">
     <a href="https://resgenie.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/Carbowix/ResGenie/issues">Report Bug</a>
     ·
     <a href="https://github.com/Carbowix/ResGenie/issues">Request Feature</a>
-   
+  </p>
+  
 </div>
- <br>
 <details>
 <summary style="font-size: 21px;">Table of Contents</summary>
 <ol>
@@ -37,6 +33,7 @@
         <li><a href="#installation">Installation</a></li>
     </ul>
     <li><a href="#technologies">Technologies</a></li>
+    <li><a href="#showcase">Showcase</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
 </details>
 <br>
@@ -108,6 +105,13 @@ This project is heavily based on the [nextjs-postgres-auth-starter](https://gith
 - [Prisma](https://www.prisma.io/) for database ORM
 - [ESLint](https://eslint.org/) configured with some initial rules
 - [Prettier](https://prettier.io/) to enforce consistent code style
+
+# Showcase
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 20px;">
+  <img src='./misc/rg_dashboard.png' width="1000" height="600" />
+  <img src='./misc/rg_res_edit.png' width="1000" height="600" />
+</div>
 
 # Acknowledgements
 
